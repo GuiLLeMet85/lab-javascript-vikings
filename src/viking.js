@@ -1,10 +1,7 @@
-
-
-
 // The following is required to make unit tests work.
 /* Environment setup. Do not modify the below code. */
 if (typeof module !== 'undefined') {
-  module.exports = { Soldier, Viking, Saxon, War };
+    module.exports = { Soldier, Viking, Saxon, War };
 }
 
 
@@ -22,19 +19,19 @@ Let's make the `Soldier` class receive two arguments:
 */
 
 class Soldier {
-  constructor(health, strength) {
-    this.health = health;
-    this.strength = strength;
-  }
+    constructor(health, strength) {
+        this.health = health;
+        this.strength = strength;
+    }
 
-  attack() {
-    return this.strength; 
-  } 
+    attack() {
+        return this.strength;
+    }
 
 
-  receiveDamage(damage){
-    this.health -= damage;
-  }
+    receiveDamage(damage) {
+        this.health -= damage;
+    }
 
 }
 
@@ -45,26 +42,26 @@ class Soldier {
 
 class Viking extends Soldier {
 
-  constructor (name, health, strength) {
-    super(health, strength);
-    this.name = name;  
-  }
-
-  receiveDamage (damage) {
-
-    this.health -= damage;
-    if (this.health > 0) {
-      return `{this.neam} has received {damage} points of damage`;
-
-    } else {
-      return `{this.neam} has died in act of combat`
+    constructor(name, health, strength) {
+        super(health, strength);
+        this.name = name;
     }
-    return 
-  }
 
-  battleCry () {
-    return "Odin Owns You All!"
-  }
+    receiveDamage(damage) {
+
+        this.health -= damage;
+        if (this.health > 0) {
+            return `{this.neam} has received {damage} points of damage`;
+
+        } else {
+            return `{this.neam} has died in act of combat`
+        }
+        return
+    }
+
+    battleCry() {
+        return "Odin Owns You All!"
+    }
 
 
 }
@@ -75,25 +72,25 @@ class Viking extends Soldier {
 
 
 class Saxon extends Soldier {
-  constructor (health, strength) {
-     super(health, strength);
-  }
+    constructor(health, strength) {
+        super(health, strength);
+    }
 
-  receiveDamage (damage) {
+    receiveDamage(damage) {
 
-    this.health -= damage;
-    if (this.health > 0) {
-      return `A Saxon has received {damage} points of damage`;
+        this.health -= damage;
+        if (this.health > 0) {
+            return `A Saxon has received {damage} points of damage`;
 
-    } else {
-      return `A Saxon has died in combat`
-    } 
-  }
+        } else {
+            return `A Saxon has died in combat`
+        }
+    }
 
-  battleCry () {
-    return "Odin Owns You All!"
-  }
- 
+    battleCry() {
+        return "Odin Owns You All!"
+    }
+
 }
 
 /*
@@ -102,24 +99,58 @@ class Saxon extends Soldier {
 
 
 class War {
-  constructor() {
-    this.vikingArmy = [];
-    this.saxonArmy = [];
-  };
+    constructor() {
+        this.vikingArmy = [];
+        this.saxonArmy = [];
+    };
 
-  addViking(viking) {
-    this.vikingArmy.push.Viking;
-  }
+    addViking(viking) {
+        this.vikingArmy.push(viking);
+    }
 
-  addSaxon(saxon) {
-    this.saxonArmy.push.saxon;
-  }
+    addSaxon(saxon) {
+        this.saxonArmy.push(saxon);
+    }
 
-  vikingAttack (){
-    const vikingIndex = Math.floor(Math.random()*this.vikingArmy.length);
-    const saxonIndex = Math.floor(Mathr.random()*this.saxonArmy.length);
+    vikingAttack() {
+        const vikingIndex = Math.floor(Math.random() * this.vikingArmy.length);
+        const saxonIndex = Math.floor(Mathr.random() * this.saxonArmy.length);
+        const result = this.saxonArmy(saxonIndex).receiveDamage(this.vikingArmy[vikingIndex].attack());
 
-  }
+        if (this.saxonArmy[saxonIndex].health <= 0) {
+            this.saxonArmy.splice(saxonIndex, 1);
+        }
+        return result;
+    }
 
+    saxonAttack() {
+        const vikingIndex = Math.floor(Math.random() * this.vikingArmy.length);
+        const saxonIndex = Math.floor(Mathr.random() * this.saxonArmy.length);
+        const result = this.vikingArmy(vikingIndex).receiveDamage(this.saxonArmy[saxonIndex].attack());
 
+        if (this.vikingArmy[vikingIndex].health <= 0) {
+            this.vikingArmy.splice(vikingIndex, 1);
+        }
+        return result;
+    }
 }
+
+showStatus() {
+    if (history.saxonArmy.length <= 0) {
+        return "Vikings have won the war of the century!"
+    } else if (this.vikingArmy.length >= 0) {
+        return "Saxons have fought for their lives and survived another day"
+    } else {
+        return "ikings and Saxons are still in the thick of battle."
+    }
+}
+
+const war = new War();
+const viking1 = new Viking("Rudolf", 200, 50);
+const saxon1 = new Saxon(300, 20);
+const viking2 = new Viking("Floky", 100, 10);
+const saxon2 = new Saxon(400, 40);
+war.addViking(viking1);
+war.addViking(viking2);
+war.addSaxon(saxon1);
+war.addSaxon(saxon2);
